@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>home</h1>
+    <a href="/sign_up"><h3>Sign Up</h3></a><br>
+    <a href="/signin"><h3>Sign in</h3></a>
+    <%if(locals.user){%>
+    <section>
+        <h4>Posts</h4>
+        <form action="/post/create" id="new-post-form" method="POST">
+        <textarea name="content" cols="30" rows="3" required></textarea><br>
+        <input type="submit" value="Post">
+        </form>
+    </section>
+    <%}%>
+    <h4>POSTS</h4>
+    <div id="posts-list-container">
+        <ul>
+           <% for(post of posts){%>
+             <li>
+                <p>
+               <%=post.content%><br>
+             <small>Posted by</small><br><small><%=post.user.name%></small>
+                </p>
+                <div class="post-comments">
+                  <%if (locals.user){%>
+                       <form action="/comments/create" method="post">
+                          <input type="text" name="content" placeholder="Type here to add comments...">
+                          <input type="hidden" name="post" value="<%=post._id%>">
+                          <input type="submit" value="Add Comment">
+                       </form>
+                  <%}%>
+                  
+                  <div class="post-comments-list">
+                      <ul id="post-comments-<%=post._id%>">
+                          <%for (comments of post.comment){%>
+                              <p>
+                               <%=comments.content%>
+                               <br>
+                               <%=comments.user.name%>
+                              </p>
+                           <%}%>   
+                      </ul>
+
+                  </div>
+              </div>
+             </li>
+           <%}%>
+        </ul>
+   </div>
+  
+</body>
+</html>

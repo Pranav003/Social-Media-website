@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css"  href="css/signup.css"> 
+    <title>SIGN UP</title>
+</head>
+<body>
+    <div id="Signup_page">
+    <h1 style="color:black; margin: 50px;">
+        Sign Up
+    </h1>
+    <form action="/c" method="post">
+        <div class="input_form" >
+        <input  type="text" name="name" class="form-tag" placeholder="NAME" required><br>
+        </div>
+        <div class="input_form">
+        <input type="email" name="email" class="form-tag" placeholder="EMAIL" required><br>
+        </div>
+        <div class="input_form">
+        <input type="password" name="password" class="form-tag" placeholder="PASSWORD" required><br>
+        </div>
+        <div class="input_form">
+        <input type="password" name="confirm_password" class="form-tag" placeholder="CONFIRM PASSWORD" required><br>
+        </div>
+        <div class="input_form" >
+        <button id="signup_button" class="form-tag" type="submit">Sign up</button>
+        </div>
+    </form>
+    <p class="google">
+        <a id="inner-text-signin"  href="signin">SIGN IN</a>
+    </p>
+    <p class="google">
+        <a  href="users/auth/google">
+            Google SignIn/SignUp
+    
+        </a>
+    </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+.form-tag{
+    width:250px;
+    background-color:  rgba(0, 0, 255, 0.18);
+    border-radius: 50px;
+   
+    
+}
+.form-tag::placeholder{
+    color:black;
+}
+#Signup_page{
+    border-radius: 50px;
+    position: absolute;
+    bottom: 10%;
+    right: 38%;
+    background-image: url("../img/bg1.png");
+    width: auto;
+    box-shadow: 10px 10px rgba(0, 0, 0, 0.112);
+}
+.input_form{
+    width: auto;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.112);
+    margin:20px;
+    padding: 2px;
+    border-radius: 10px;
+}
+body{
+    background-image: url("../img/pngtree-abstract-glass-morphism-image_776730.jpg");
+}
+.google{
+    text-align: center;
+    position: relative;
+    right: -20%;
+    border-radius: 100px;
+    width: 150px;
+    background-color:  rgba(0, 0, 255, 0.18);
+    border: 0.1px black solid
+}
+a{
+    color:black;
+    text-decoration: none;
+}
+a:hover{
+    color: white;
+    text-decoration: none;
+
+}
+#signup_button{
+    background-color: rgba(0, 0, 255, 0.18);
+    border: 0.1px black solid;
+    border-radius: 10px;
+}
+#signup_button:hover{
+   color:white;
+    
+}

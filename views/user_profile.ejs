@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/profile.css" type="text/css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script><!--It should be below noty-->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+<div id="whole-page">
+   <div id="user_information">
+    <%if(profile_user){%>
+    
+    <img src="<%=profile_user.avatar%>" alt="<%=profile_user.name%>" width="100">
+    <h4><%=profile_user.name%></h4>
+    <%}else{%>
+        
+       
+        <img src="<%=locals.user.avatar%>" alt="<%=locals.user.name%>" width="100">
+        <h2><%=locals.user.name%></h2>
+    <%}%>
+   </div>
+   <div id="update-section">
+    <%if(!profile_user){%>
+        
+        <a href="/update-Information" role="button" class="btn btn-primary" >Settings</a>
+       
+    <%}%>
+   </div>
+   <div id="postion-section">
+    <%if(!profile_user){%>
+    <section>
+        <h4>Posts</h4>
+        <form action="/post/create" id="new-post-form"  method="POST">
+            <textarea name="content" cols="30" rows="3" required></textarea><br>
+
+            <input type="submit" value="Post">
+            
+        </form>
+    </section>
+    <%}%>
+   </div>
+
+    <div id="posts-list-container">
+        <ul>
+           <% for(post of posts){%>
+             <li id="post-<%=post._id%>">
+                <p>
+                    <%if ((locals.user) && (locals.user.id==post.user.id)){%>
+                    <small>
+                        <a class="delete-post-button" href="/post/destroy/<%=post.id%>">DELETE</a><br>
+                    </small>
+                    <%}%>
+               <%=post.content%><br>
+               <small><%=post.user.name%></small>
+               <br>
+               <small>
+                <%if (locals.user){%>
+                    <a class="toggle-like-button" data-likes=" <%=post.likes.length %> " href="/likes/toggle/?id=<%=post._id%>&type=Post"><%=post.likes.length%>Likes</a>
+                <%}else{%>
+                    <%=post.likes.length%>Like
+                <%}%> 
+               </small>
+                </p>
+                <div class="post-comments">
+                   <%if(locals.user){%>
+                         <form action="/comments/create" method="post" id="new-comment-form">
+                            <input type="text" name="content" placeholder="Type here to add comments..." required>
+                            <input type="hidden" name="post" value="<%=post._id%>">
+                            <input type="submit" value="Add Comment">
+                         </form>
+                    <%}%>
+                    
+                    <div class="post-comments-list">
+                        <ul id="post-comments-<%=post._id%>">
+                            
+                            <%for (comments of post.comment){%>
+                                <li id="comment-<%=comments._id%>">
+                                <p>
+                                    <%if (locals.user&&(locals.user.id==comments.user.id || locals.user.id==comments.post.id)){%>
+                                        <small>
+                                        <a id="Delete-comment" href="/comments/destroy/<%=comments._id%>">DELETE</a>
+                                        </small>
+                                    <%}%>   
+                                 <%=comments.content%>
+
+                                 <br>
+                                 <small>
+                                 <%=comments.user.name%>
+                                 </small>
+                                 <small>
+                                    <%if(locals.user){%>
+                                    <a data-likes="<%=comments.likes.length%>" class="toggle-like-button"  href="/likes/toggle/?id=<%=comments._id%>&type=Comment"> <%=comments.likes.length%>Likes </a>
+                                    <%}else{%>
+                                        <%=comment.likes.length%>Likes                                    <%}%>
+                                 </small>
+                                </p>
+                                </li>
+                             <%}%>
+                            
+                        </ul>
+
+                    </div>
+                </div>
+             </li>
+          
+           <%}%>
+        </ul>
+   </div> 
+<section id="user_friends">
+    <h4>Friends</h4>
+    <%for (u of all_users){%>
+                <p>
+                    <%if(locals.user.id!=u.id){%>
+                    <a href="/profile/<%=u.id%>"><%=u.name%></a>
+                    <%}%>
+                </p>
+    <%}%>
+
+</section>
+   
+
+<a href="/signout">SIGN OUT</a>
+    <script>
+         <% if(flash.success&&flash.success.length>0){ %>
+
+             new Noty({
+               theme:'relax',
+    
+           
+               text: "<%=flash.success%>",
+               type:"success",
+               layout:"topRight",
+               timeout:1500 //this is in milliseconds
+
+            
+           
+               }).show();
+        <% } %>
+    </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="/js/home_posts.js"></script>
+<script src="/js/toggle_likes.js"></script>
+
+<script>
+    $('.toggle-like-button').each(function(){
+         let self=this;
+         let toggleLike=new ToggleLike(self);
+    });
+</script>
+    </div>
+</body>
+</html>
